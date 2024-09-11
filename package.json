@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "run-prod-tests": "cypress run --browser chrome --env server=prod",
+    "run-staging-tests": "cypress run --browser chrome --env server=staging"
+    
   },
   "author": "Olayide A.",
   "license": "ISC",
