@@ -1,6 +1,6 @@
-import ApiHelper from "../../helpers/apiHelper";
-import TestHelper from "../../helpers/testHelper";
-import DashboardPage from "../../pageObjects/dashboard";
+import ApiHelper from "../helpers/apiHelper";
+import TestHelper from "../helpers/testHelper";
+import DashboardPage from "../pageObjects/dashboard";
 
 let spaceName
 let folderName

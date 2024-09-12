@@ -25,7 +25,7 @@ module.exports = defineConfig({
      
       return config
     },
-    specPattern: 'cypress/e2e/tests/**/*.cy.js',
+    specPattern: 'cypress/e2e/tests/*.cy.js',
   },
   reporter: "mochawesome",
   defaultCommandTimeout: 50000,
