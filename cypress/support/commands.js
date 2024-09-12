@@ -1,25 +1,27 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import LoginPage from "../e2e/pageObjects/login"
+
+const login = new LoginPage();
+
+Cypress.Commands.add('testUserLogin', () => {
+    const email = Cypress.env('LOGIN.EMAIL')
+    const password = Cypress.env('LOGIN.PASSWORD')
+
+    // login for test user
+    login.userLogin(email, password)  
+})
+
+// override api requests to accept authorization header
+Cypress.Commands.overwrite('request', (originalFn, ...options) => {
+    const optionsObject = options[0];
+
+    if (optionsObject === Object(optionsObject)) {
+        optionsObject.headers = {
+          Authorization: `${Cypress.env('AUTHORIZATION_TOKEN')}`,
+          ...optionsObject.headers,
+        };
+    
+        return originalFn(optionsObject);
+      }
+    
+      return originalFn(...options);
+    });
