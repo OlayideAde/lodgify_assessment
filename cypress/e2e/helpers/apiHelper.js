@@ -3,7 +3,6 @@ let options;
 
 const apiBaseUrl = "https://app.clickup.com/api/v2";
 class ApiHelper {
-  
   callCreateSpaceApi(spaceName) {
     requestPayload = {
       name: spaceName,
@@ -53,26 +52,40 @@ class ApiHelper {
 
   callCreateTaskApi(taskName, listId) {
     requestPayload = {
-        name: taskName
+      name: taskName,
     };
 
     options = {
-        method: "POST",
-        url: `${apiBaseUrl}/list/${listId}/task`,
-        body: requestPayload
+      method: "POST",
+      url: `${apiBaseUrl}/list/${listId}/task`,
+      body: requestPayload,
     };
 
-    return cy.request(options)
+    return cy.request(options);
   }
 
   callGetTaskApi(taskId) {
     options = {
-        method: "GET",
-        url: `${apiBaseUrl}/task/${taskId}`,
+      method: "GET",
+      url: `${apiBaseUrl}/task/${taskId}`,
     };
 
-    return cy.request(options)
-  } 
+    return cy.request(options);
+  }
+
+  interceptGetLists() {
+    return cy.intercept({
+      method: "GET",
+      url: "**/folder/**/list",
+    });
+  }
+
+  interceptCreateTask() {
+    return cy.intercept({
+      method: "POST",
+      url: "**/list/**/task",
+    });
+  }
 }
 
 export default ApiHelper;
