@@ -28,7 +28,7 @@ describe('Validate "Create space" API functionality', () => {
             expect(response.status).to.equal(200)
         })
         
-      // login to integration user UI dashboard
+      // login to dashboard
       cy.testUserLogin();
 
       // verify spaceName is displayed in sidebar
@@ -36,7 +36,7 @@ describe('Validate "Create space" API functionality', () => {
       dashboard.getSpacesSideBar().within(() => {
 
         // verify name is displayed there
-
+        (dashboard.getSpace(spaceName)).should('be.visible')
       })
 
       // open space and verify it is open  
@@ -46,7 +46,9 @@ describe('Validate "Create space" API functionality', () => {
 
     });
 
-    after()
+    after(() => {
+      dashboard.userLogout()
+    })
   });
 
   describe('Validate "Create task" functionality', () => {
@@ -81,6 +83,8 @@ describe('Validate "Create space" API functionality', () => {
       //intercept api to check if spacename there
     });
 
-    after()
+    afterEach(() => {
+      dashboard.userLogout()
+    })
   });
 });

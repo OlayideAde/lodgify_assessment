@@ -26,7 +26,7 @@ class DashboardPage {
     }
 
     viewSpacesSideBar() {
-        this.viewSpacesButton.click()
+        this.viewSpacesButton().click()
     }
 
     openSpace(name) {
@@ -37,7 +37,7 @@ class DashboardPage {
         this.getSpace(spaceName).within(() => {
             this.openCreateFolderForm()
         }) 
-        this.getFolderNameInput.type(folderName)
+        this.getFolderNameInput().type(folderName)
         this.getCreateFolderButton().click()
     }
 
