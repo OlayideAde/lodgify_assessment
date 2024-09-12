@@ -5,18 +5,18 @@ class DashboardPage {
   }
 
   getSpacesSideMenu() {
-    return cy.get('cu-tree#[id^="cdk-drop-list"]');
+    return cy.get('cu-tree[id^="cdk-drop-list"]');
   }
 
   getSpace(name) {
     return cy.get(
-      `cu-tree#[id^="cdk-drop-list"] > span[data-test="project-row__name__${name}"]`
+      `cu-tree[id^="cdk-drop-list"] > span[data-test="project-row__name__${name}"]`
     );
   }
 
   getFolder(name) {
     return cy.get(
-      `cu-tree#[id^="cdk-drop-list"] > span[data-test="category-row__folder-name__${name}"]`
+      `cu-tree[id^="cdk-drop-list"] > span[data-test="category-row__folder-name__${name}"]`
     );
   }
 
