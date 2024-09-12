@@ -10,14 +10,16 @@ let dashboard;
 const apiHelper = new ApiHelper();
 const testHelper = new TestHelper();
 
-describe('Test Scenarios', () => {
+describe("Test Scenarios", () => {
   before(() => {
     spaceName = testHelper.getRandomString();
     folderName = testHelper.getRandomString();
     taskName = testHelper.getRandomString(6);
 
     dashboard = new DashboardPage();
+  });
 
+  beforeEach(() => {
     apiHelper.interceptGetLists().as("getLists");
     apiHelper.interceptCreateTask().as("createTask");
   });
@@ -70,6 +72,8 @@ describe('Test Scenarios', () => {
         expect(response.body.name).to.equal(taskName);
       });
     });
+
+    dashboard.userLogout();
   });
 
   it("should create task via API tand verify on UI", () => {
@@ -77,7 +81,7 @@ describe('Test Scenarios', () => {
       // get existing list id
       let listId = intercept.response.body.lists[0]["id"];
 
-      // call create task with list id
+      // call create task with list id and verify response
       apiHelper.callCreateTaskApi(taskName, listId).then((response) => {
         expect(response.status).to.equal(200);
         expect(response.body.name).to.equal(taskName);
