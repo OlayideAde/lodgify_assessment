@@ -5,7 +5,8 @@ const login = new LoginPage();
 Cypress.Commands.add('testUserLogin', () => {
     const email = Cypress.env('LOGIN.EMAIL')
     const password = Cypress.env('LOGIN.PASSWORD')
-
+    //visit login page
+    cy.visit('/')
     // login for test user
     login.userLogin(email, password)  
 })
