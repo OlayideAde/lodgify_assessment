@@ -33,9 +33,10 @@ describe('Validate "Create space" API functionality', () => {
 
       // verify spaceName is displayed in sidebar
       dashboard.viewSpacesSideBar()
-      dashboard.getSpacesSideBar().then(() => {
+      dashboard.getSpacesSideBar().within(() => {
 
         // verify name is displayed there
+
       })
 
       // open space and verify it is open  
