@@ -58,7 +58,7 @@ class ApiHelper {
 
     options = {
         method: "POST",
-        url: `/list/${listId}/task`,
+        url: `${apiBaseUrl}/list/${listId}/task`,
         body: requestPayload
     };
 
@@ -68,11 +68,11 @@ class ApiHelper {
   callGetTaskApi(taskId) {
     options = {
         method: "GET",
-        url: `/task/${taskId}`,
+        url: `${apiBaseUrl}/task/${taskId}`,
     };
 
     return cy.request(options)
-  }
+  } 
 }
 
 export default ApiHelper;

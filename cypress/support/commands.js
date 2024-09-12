@@ -3,8 +3,8 @@ import LoginPage from "../e2e/pageObjects/login"
 const login = new LoginPage();
 
 Cypress.Commands.add('testUserLogin', () => {
-    const email = Cypress.env('LOGIN.EMAIL')
-    const password = Cypress.env('LOGIN.PASSWORD')
+    const email = Cypress.env('EMAIL')
+    const password = Cypress.env('PASSWORD')
     //visit login page
     cy.visit('/')
     // login for test user

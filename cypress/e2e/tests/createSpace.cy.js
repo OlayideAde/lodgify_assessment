@@ -15,9 +15,9 @@ describe('Validate "Create space" API functionality', () => {
   before(() => {
     spaceName = testHelper.getRandomString()
     folderName = testHelper.getRandomString()
+    taskName = testHelper.getRandomString(6)
 
-    dashboard = new DashboardPage()
-    
+    dashboard = new DashboardPage() 
   });
 
   describe('Validate "Create space" functionality', () => {
@@ -34,21 +34,16 @@ describe('Validate "Create space" API functionality', () => {
       // verify spaceName is displayed in sidebar
       dashboard.viewSpacesSideBar()
       dashboard.getSpacesSideBar().within(() => {
-
-        // verify name is displayed there
         (dashboard.getSpace(spaceName)).should('be.visible')
       })
 
-      // open space and verify it is open  
+      // open space 
       dashboard.openSpace(spaceName)
+      // verify that the selected space tab is open
+      dashboard.getActiveTab().contains(spaceName).should('be.visible')
 
-      //verify space on UI check spacename ui
-
-    });
-
-    after(() => {
       dashboard.userLogout()
-    })
+    });
   });
 
   describe('Validate "Create task" functionality', () => {
@@ -57,24 +52,26 @@ describe('Validate "Create space" API functionality', () => {
       cy.testUserLogin()
       
       // create folder in space
-      dashboard.createFolder(folderName)
-      // create list in folder
-      dashboard.createList(listName)
+      dashboard.createFolder(spaceName, folderName)
+
+      // get default list in folder
+
       // create task via ui
-      dashboard.createTask()
+      //dashboard.createTask()
 
       // call get task api and verify details
 
-
-    
-    });
+      // apiHelper.callGetTaskApi().then((response) => {
+        // verify response status code
+        //expect(response.status).to.equal(200)
+    })
 
     it("should create task via API tand verify on UI", () => {
       // call create task api
 
 
       // login to integration user UI dashboard
-      cy.testUserLogin();
+      // cy.testUserLogin();
 
       // navigate to spaces
 
@@ -83,8 +80,5 @@ describe('Validate "Create space" API functionality', () => {
       //intercept api to check if spacename there
     });
 
-    afterEach(() => {
-      dashboard.userLogout()
-    })
   });
 });

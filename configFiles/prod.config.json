@@ -2,10 +2,8 @@
   "baseUrl": "https://app.clickup.com",
   "apiBaseUrl": "https://app.clickup.com/api/v2",
   "env": {
-    "LOGIN": {
-      "EMAIL": "laide.ademeso@gmail.com",
-      "PASSWORD": "c5Ma,W-jad(6YfR"
-    },
+    "EMAIL": "laide.ademeso@gmail.com",
+    "PASSWORD": "c5Ma,W-jad(6YfR",
     "AUTHORIZATION_TOKEN": "pk_146405372_2L17623GXSTV2CFCQ60OK2SVKD0GA73B",
     "WORKSPACE": "9012256693" 
   }
