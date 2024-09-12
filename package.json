@@ -7,7 +7,7 @@
     "cy:open": "cypress open --env testEnv=prod",
     "run-tests": "cypress run --browser chrome",
     "run-prod-tests": "cypress run --browser chrome --env testEnv=prod",
-    "run-staging-tests": "cypress run --browser chrome --env testEnv=staging",
+    "run-staging-tests": "cypress run --browser chrome --env testEnv=staging"
   },
   "author": "Olayide A.",
   "license": "ISC",
