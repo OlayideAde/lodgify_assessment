@@ -40,6 +40,14 @@ class DashboardPage {
     return cy.get('button[data-test+"draft-view__quick-create-create"]')
   }
 
+  getTaskList() {
+    return cy.get('cu-task-list[data-test="list-view-divisions__task-list__to do"]')
+  }
+
+  getTask() {
+    return cy.get('div[data-test="task-row_-container__test"]')
+  }
+
   openCreateFolderForm(spaceName) {
     this.getSpace(spaceName).within(() => {
       cy.get(
