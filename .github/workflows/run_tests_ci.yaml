@@ -24,7 +24,11 @@ jobs:
     - name: Cypress run
       run: npm run run-prod-tests
     
-
+    - name: Upload test results
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        name: testReport    
+        path: mochawesome-report
    
     
 
