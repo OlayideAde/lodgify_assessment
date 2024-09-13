@@ -5,18 +5,18 @@ class DashboardPage {
   }
 
   getSpacesSideMenu() {
-    return cy.get('cu-tree[id^="cdk-drop-list"]');
+    return cy.get('[id^="cdk-drop-list"]');
   }
 
   getSpace(name) {
     return cy.get(
-      `cu-tree[id^="cdk-drop-list"] > span[data-test="project-row__name__${name}"]`
+      `span[data-test="project-row__name__${name}"]`
     );
   }
 
   getFolder(name) {
     return cy.get(
-      `cu-tree[id^="cdk-drop-list"] > span[data-test="category-row__folder-name__${name}"]`
+      `span[data-test="category-row__folder-name__${name}"]`
     );
   }
 
@@ -48,6 +48,9 @@ class DashboardPage {
     return cy.get('div[data-test="task-row_-container__test"]')
   }
 
+  getNotificationText() {
+    return cy.get('[data-test="toast__name-link"]')
+  }
   openCreateFolderForm(spaceName) {
     this.getSpace(spaceName).within(() => {
       cy.get(
@@ -66,7 +69,6 @@ class DashboardPage {
         'div.row-actions > button[cutolltip="Create Folders, Lists, Docs and more"]'
       );
     });
-
     cy.get(
       'cu-dropdown-list-item[data-pendo="cu-dropdown-list-item__id-new-list"]'
     ).click();
@@ -78,7 +80,7 @@ class DashboardPage {
 
   createFolder(spaceName, folderName) {
     this.getSpace(spaceName).within(() => {
-      this.openCreateFolderForm();
+      this.openCreateFolderForm(spaceName);
     });
     this.getFolderNameInput().type(folderName);
     this.getCreateButton().click();
@@ -94,7 +96,7 @@ class DashboardPage {
     cy.get(
       'button[data-test="user-main-settings-menu__dropdown-toggle"]'
     ).click();
-    cy.get('button[data-test="dropdown-list-item__logout"]').click();
+    cy.get('button[data-test="dropdown-list-item__logOut"]').click();
   }
 }
 export default DashboardPage;

@@ -19,84 +19,96 @@ describe("Test Scenarios", () => {
     dashboard = new DashboardPage();
   });
 
-  beforeEach(() => {
-    apiHelper.interceptGetLists().as("getLists");
-    apiHelper.interceptCreateTask().as("createTask");
-  });
+  describe('Validate "Create Space" functionality', () => {
+    describe("Positive tests", () => {
+      it("should create space via API and verify on UI", () => {
+        // call createSpace API
+        apiHelper.callCreateSpaceApi(spaceName).then((response) => {
+          // verify response status code
+          expect(response.status).to.equal(200);
+        });
 
-  it("should create space via API and verify on UI", () => {
-    // call create space API
-    apiHelper.callCreateSpaceApi(spaceName).then((response) => {
-      // verify response status code
-      expect(response.status).to.equal(200);
-    });
+        // login to dashboard
+        cy.testUserLogin();
 
-    // login to dashboard
-    cy.testUserLogin();
+        // verify spaceName is displayed in side menu
+        dashboard.getSpacesSideMenu().within(() => {
+          dashboard.getSpace(spaceName).should("be.visible");
+          dashboard.getSpace(spaceName).should("have.value", spaceName);
+        });
 
-    // verify spaceName is displayed in side menu
-    dashboard.getSpacesSideMenu().within(() => {
-      dashboard.getSpace(spaceName).should("be.visible");
-    });
+        // open space
+        dashboard.openSpace(spaceName);
+        // verify that the selected space tab is open
+        dashboard.getActiveTab().contains(spaceName).should("be.visible");
 
-    // open space
-    dashboard.openSpace(spaceName);
-    // verify that the selected space tab is open
-    dashboard.getActiveTab().contains(spaceName).should("be.visible");
-
-    dashboard.userLogout();
-  });
-
-  it("should create task via UI and verify via API", () => {
-    // login to test user dashboard
-    cy.testUserLogin();
-
-    // create folder in space
-    dashboard.createFolder(spaceName, folderName);
-
-    // create task in default list via ui
-    dashboard.getFolder(folderName).click();
-    dashboard.createTask(taskName);
-
-    //verify notification modal
-
-    //verify
-    cy.wait("@createTask").then((intercept) => {
-      let taskId = intercept.response.body["id"];
-
-      // call getTaskApi using id and verify
-      apiHelper.callGetTaskApi(taskId).then((response) => {
-        // verify response
-        expect(response.status).to.equal(200);
-        expect(response.body.id).to.equal(taskId);
-        expect(response.body.name).to.equal(taskName);
+        // logout for next test
+        dashboard.userLogout();
       });
     });
-
-    dashboard.userLogout();
   });
 
-  it("should create task via API tand verify on UI", () => {
-    cy.wait("@getLists").then((intercept) => {
-      // get existing list id
-      let listId = intercept.response.body.lists[0]["id"];
-
-      // call create task with list id and verify response
-      apiHelper.callCreateTaskApi(taskName, listId).then((response) => {
-        expect(response.status).to.equal(200);
-        expect(response.body.name).to.equal(taskName);
+  describe('Validate "Create Task" functionality', () => {
+    describe("Positive tests", () => {
+      beforeEach(() => {
+        apiHelper.interceptGetLists().as("getLists");
+        apiHelper.interceptCreateTask().as("createTask");
       });
-    });
+      
+      it("should create task via UI and verify via API", () => {
+        // login to test user dashboard
+        cy.testUserLogin();
 
-    // login to dashboard
-    cy.testUserLogin();
+        // create folder in space
+        dashboard.createFolder(spaceName, folderName);
 
-    // Open folder in space
-    dashboard.getFolder(folderName).click();
+        // create task in default list via ui
+        dashboard.getFolder(folderName).click();
+        dashboard.createTask(taskName);
 
-    //Verify task is on task list
-    dashboard.getTaskList().within(() => {
-      dashboard.getTask().contains(taskName).should("be.visible");
+        //verify notification modal
+        dashboard
+          .getNotificationText()
+          .should("have.text", `${taskName} Created!`);
+
+        cy.wait("@createTask").then((intercept) => {
+          let taskId = intercept.response.body["id"];
+
+          // call getTaskApi using id and verify
+          apiHelper.callGetTaskApi(taskId).then((response) => {
+            // verify response
+            expect(response.status).to.equal(200);
+            expect(response.body.id).to.equal(taskId);
+            expect(response.body.name).to.equal(taskName);
+          });
+        });
+
+        dashboard.userLogout();
+      });
+
+      it("should create task via API tand verify on UI", () => {
+        cy.wait("@getLists").then((intercept) => {
+          // get existing list id
+          let listId = intercept.response.body.lists[0]["id"];
+
+          // call create task with list id and verify response
+          apiHelper.callCreateTaskApi(taskName, listId).then((response) => {
+            expect(response.status).to.equal(200);
+            expect(response.body.name).to.equal(taskName);
+          });
+        });
+
+        // login to dashboard
+        cy.testUserLogin();
+
+        // Open folder in space
+        dashboard.getFolder(folderName).click();
+
+        //Verify task is on task list
+        dashboard.getTaskList().within(() => {
+          dashboard.getTask().contains(taskName).should("be.visible");
+        });
+      });
     });
   });
 });

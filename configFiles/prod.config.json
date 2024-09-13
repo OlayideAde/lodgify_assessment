@@ -2,9 +2,9 @@
   "baseUrl": "https://app.clickup.com",
   "apiBaseUrl": "https://app.clickup.com/api/v2",
   "env": {
-    "EMAIL": "laide.ademeso@gmail.com",
-    "PASSWORD": "c5Ma,W-jad(6YfR",
-    "AUTHORIZATION_TOKEN": "pk_146405372_2L17623GXSTV2CFCQ60OK2SVKD0GA73B",
-    "WORKSPACE": "9012256693" 
+    "EMAIL": "laide.ademeso+testuser2@gmail.com",
+    "PASSWORD": "&DEhm37q=8Uq$JP",
+    "AUTHORIZATION_TOKEN": "pk_1646400234_ZNQQGA4RNT9O304TNG9V4JU9WPGSTTWK",
+    "WORKSPACE": "9012267408" 
   }
 }

@@ -4,7 +4,7 @@
   "description": "This repo contains test cases for the lodgify QA engineer assessment",
   "main": "index.js",
   "scripts": {
-    "cy:open": "cypress open --env testEnv=local",
+    "cy:open": "cypress open",
     "run-tests": "cypress run --browser chrome",
     "run-prod-tests": "cypress run --browser chrome --env testEnv=prod",
     "run-staging-tests": "cypress run --browser chrome --env testEnv=staging"
@@ -12,7 +12,8 @@
   "author": "Olayide A.",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.14.2"
+    "cypress": "^13.14.2",
+    "cypress-mochawesome-reporter": "^3.8.2"
   },
   "dependencies": {
     "chai": "^5.1.1",
