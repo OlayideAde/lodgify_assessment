@@ -45,6 +45,7 @@ class ApiHelper {
       method: "POST",
       url: `${apiBaseUrl}/team/${Cypress.env("WORKSPACE")}/space`,
       body: requestPayload,
+      failOnStatusCode: false,
     };
 
     return cy.request(options);
@@ -59,6 +60,7 @@ class ApiHelper {
       method: "POST",
       url: `${apiBaseUrl}/list/${listId}/task`,
       body: requestPayload,
+      failOnStatusCode: false,
     };
 
     return cy.request(options);
@@ -73,17 +75,10 @@ class ApiHelper {
     return cy.request(options);
   }
 
-  interceptGetLists() {
-    return cy.intercept({
-      method: "GET",
-      url: "**/folder/**/list",
-    });
-  }
-
   interceptCreateTask() {
     return cy.intercept({
       method: "POST",
-      url: "**/list/**/task",
+      url: "**/tasks/v1/subcategory/**/task",
     });
   }
 }
