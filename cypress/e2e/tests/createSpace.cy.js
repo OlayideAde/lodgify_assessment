@@ -112,8 +112,9 @@ describe("Test Scenarios", () => {
 
       it("should create task via API and verify on UI", () => {
         // call create task with list id and verify response
+        listId = Cypress.env("LIST_ID")
         apiHelper
-          .callCreateTaskApi(taskName, Cypress.env("LIST_ID"))
+          .callCreateTaskApi(taskName,listId)
           .then((response) => {
             cy.log(response.body);
             expect(response.status).to.equal(200);
