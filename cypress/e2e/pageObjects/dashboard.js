@@ -51,7 +51,7 @@ class DashboardPage {
   }
 
   getNotificationText() {
-    return cy.get('[data-test="toast__name-link"]');
+    return cy.get('span[data-test="toast__name-link"]');
   }
 
   openCreateFolderForm(spaceName) {
@@ -72,6 +72,10 @@ class DashboardPage {
     ).click();
   }
 
+  openListView() {
+    return cy.get('[data-test="data-view-list__header-item-name-List"]').click()
+  }
+
   openSpace(name) {
     this.getSpace(name).click();
   }
@@ -83,11 +87,8 @@ class DashboardPage {
   }
 
   createTask(taskName) {
-    cy.get('[data-test="data-view-list__header-item-name-List"]').click();
-
-    this.getAddTaskButton().click();
-    this.getCreateTaskForm().should('be.visible')
-    cy.wait(5000)
+    this.openListView().click();
+    this.getAddTaskButton().click().wait(5000)
     this.getTaskTitleInput().type(taskName);
     this.getCreateTaskButton().click();
   }

@@ -13,11 +13,11 @@ const testHelper = new TestHelper();
 
 describe("Test Scenarios", () => {
   before(() => {
-    spaceName = testHelper.getRandomString()
-    folderName = testHelper.getRandomString()
-    taskName = testHelper.getRandomString(6)
+    spaceName = testHelper.getRandomString();
+    folderName = testHelper.getRandomString();
+    taskName = testHelper.getRandomString(6);
 
-    dashboard = new DashboardPage()
+    dashboard = new DashboardPage();
   });
 
   describe('Validate "Create Space" functionality', () => {
@@ -26,15 +26,14 @@ describe("Test Scenarios", () => {
         // call createSpace API
         apiHelper.callCreateSpaceApi(spaceName).then((response) => {
           // verify response status code
-          expect(response.status).to.equal(200)
-          expect(response.body.name).to.equal(spaceName)
+          expect(response.status).to.equal(200);
+          expect(response.body.name).to.equal(spaceName);
         });
 
         // login to dashboard
         cy.testUserLogin();
         // verify user is in workspace
-        cy.url().should('contain', Cypress.env('WORKSPACE'))
-
+        cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         // verify spaceName is displayed in side menu
         dashboard.getSpacesSideMenu().within(() => {
@@ -47,16 +46,16 @@ describe("Test Scenarios", () => {
         // verify that the selected space tab is open
         dashboard.getActiveTab().contains(spaceName).should("be.visible");
 
-        // logout 
+        // logout
         dashboard.userLogout();
       });
     });
 
     describe("Negative tests", () => {
-      it("#API-test should verify that space name is required", () => {
+      it("#API-test should verify that space name cannot be an empty string", () => {
         // call createSpace API
         apiHelper.callCreateSpaceApi("").then((response) => {
-          // verify response status and error
+          // verify response code and error message
           expect(response.status).to.equal(400);
           expect(response.body.err).to.equal("Space name invalid");
         });
@@ -74,27 +73,30 @@ describe("Test Scenarios", () => {
         // login to test user dashboard
         cy.testUserLogin();
         // verify user is in workspace
-        cy.url().should('contain', Cypress.env('WORKSPACE'))
-
+        cy.url().should("contain", Cypress.env("WORKSPACE"));
+        dashboard.getSpace(spaceName).click()
+        dashboard.getActiveTab().contains(spaceName).should("be.visible");
+        
         // create folder in space
         dashboard.createFolder(spaceName, folderName);
 
         // create task in default list via ui
         dashboard.getFolder(folderName).click();
-       
+
         cy.wait(1000);
         dashboard.createTask(taskName);
 
+        //verify notification modal
+        // dashboard
+         // .getNotificationText()
+         // .should("have.value", `${taskName} Created!`);
+
+
         // retrieve list id from url
         cy.url().then((url) => {
-          listId = url.split('/').pop()
-          Cypress.env('LIST_ID', listId )
-        })
-
-        //verify notification modal
-        //dashboard
-        //  .getNotificationText()
-        //  .should("have.text", `${taskName} Created!`);
+          listId = url.split("/").pop();
+          Cypress.env("LIST_ID", listId);
+        });
 
         cy.wait("@createTask").then((intercept) => {
           let taskId = intercept.response.body["id"];
@@ -102,7 +104,7 @@ describe("Test Scenarios", () => {
           // call getTaskApi using id and verify
           apiHelper.callGetTaskApi(taskId).then((response) => {
             // verify response
-            cy.log(response)
+            cy.log(response);
             expect(response.status).to.equal(200);
             expect(response.body.id).to.equal(taskId);
             expect(response.body.name).to.equal(taskName);
@@ -112,19 +114,17 @@ describe("Test Scenarios", () => {
 
       it("should create task via API and verify on UI", () => {
         // call create task with list id and verify response
-        listId = Cypress.env("LIST_ID")
-        apiHelper
-          .callCreateTaskApi(taskName,listId)
-          .then((response) => {
-            cy.log(response.body);
-            expect(response.status).to.equal(200);
-            expect(response.body.name).to.equal(taskName);
-          });
+        listId = Cypress.env("LIST_ID");
+        apiHelper.callCreateTaskApi(taskName, listId).then((response) => {
+          cy.log(response.body);
+          expect(response.status).to.equal(200);
+          expect(response.body.name).to.equal(taskName);
+        });
 
         // login to dashboard
         cy.testUserLogin();
         // verify user is in workspace
-        cy.url().should('contain', Cypress.env('WORKSPACE'))
+        cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         // Open folder in space
         dashboard.getFolder(folderName).click();
@@ -141,12 +141,18 @@ describe("Test Scenarios", () => {
         // login to test user dashboard
         cy.testUserLogin();
         // verify user is in workspace
-        cy.url().should('contain', Cypress.env('WORKSPACE'))
+        cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         //Get folder
         dashboard.getFolder(folderName).click();
-        // create task with empty string as name
-        dashboard.createTask("");
+        // create task without name
+        dashboard.openListView();
+
+        dashboard.getAddTaskButton().click();
+        dashboard.getCreateTaskForm().should("be.visible");
+        cy.wait(5000);
+
+        dashboard.getCreateTaskButton().click();
 
         // verfy dispalyed error message
         cy.get('[data-pendo="quick-create-task-enter-task-name-error"]')
@@ -154,10 +160,10 @@ describe("Test Scenarios", () => {
           .should("be.visible");
       });
 
-      it("#API-test should verify that task name is required", () => {
+      it("#API-test should verify that task name cannot be an empty string", () => {
         // call create task with list id and verify response
         apiHelper
-          .callCreateTaskApi("", Cypress.env("LIST"))
+          .callCreateTaskApi("", Cypress.env("LIST_ID"))
           .then((response) => {
             expect(response.status).to.equal(400);
             expect(response.body.err).to.equal("");

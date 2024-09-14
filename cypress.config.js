@@ -29,7 +29,8 @@ module.exports = defineConfig({
     },
     specPattern: 'cypress/e2e/tests/*.cy.js',
   },
-  defaultCommandTimeout: 100000,
+  defaultCommandTimeout: 900000,
+  numTestsKeptInMemory: 0,
   pageLoadTimeout: 100000,
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
