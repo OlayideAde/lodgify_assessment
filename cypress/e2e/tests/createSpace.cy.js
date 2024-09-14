@@ -67,7 +67,6 @@ describe("Test Scenarios", () => {
   describe('Validate "Create Task" functionality', () => {
     describe("Positive tests", () => {
       beforeEach(() => {
-        apiHelper.interceptGetList().as("getList");
         apiHelper.interceptCreateTask().as("createTask");
       });
 
