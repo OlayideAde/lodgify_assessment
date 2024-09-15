@@ -3,6 +3,7 @@
 This repo contains the test cases for test scenarios outlined in the [lodgify assessment task](https://lodgify.notion.site/Lodgify-Junior-Automation-QA-Challenge-28b56dfc7d59474fa85dae2ebebbd191). 
 ## Getting started
 # Folder Structure With Descriptions
+
 | /cypress | | The automated testing framework |
 | | /e2e | Contains all tests |
 | | /support/pages | Contains page object modules |
