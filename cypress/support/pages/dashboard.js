@@ -59,7 +59,7 @@ export class DashboardPage {
   }
 
   getForm() {
-    return cy.get('[data-test="modal__dialog"]')
+    return cy.get('[data-test="modal__dialog"]');
   }
 
   openCreateFolderForm(spaceName) {
@@ -92,7 +92,7 @@ export class DashboardPage {
 
   createFolder(spaceName, folderName) {
     this.openCreateFolderForm(spaceName);
-    this.getForm().should('be.visible');
+    this.getForm().should("be.visible");
     this.getFolderNameInput().type(folderName);
     this.getCreateButton().should("be.visible").click();
   }
@@ -100,7 +100,7 @@ export class DashboardPage {
   createTask(taskName) {
     this.openListView().click();
     this.getAddTaskButton().click().wait(5000);
-    this.getForm().should('be.visible');
+    this.getForm().should("be.visible");
     this.getTaskTitleInput().type(taskName);
     this.getCreateTaskButton().click();
   }
@@ -112,4 +112,3 @@ export class DashboardPage {
     cy.get('button[data-test="dropdown-list-item__logOut"]').click();
   }
 }
-

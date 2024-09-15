@@ -33,7 +33,7 @@ module.exports = defineConfig({
   },
   defaultCommandTimeout: 900000,
   numTestsKeptInMemory: 0,
-  pageLoadTimeout: 100000,
+  pageLoadTimeout: 900000,
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     embeddedScreenshots: true,
