@@ -58,6 +58,10 @@ export class DashboardPage {
     return cy.get('span[data-test="toast__name-link"]');
   }
 
+  getForm() {
+    return cy.get('[data-test="modal__dialog"]')
+  }
+
   openCreateFolderForm(spaceName) {
     this.getSpace(spaceName).invoke("show");
 
@@ -88,6 +92,7 @@ export class DashboardPage {
 
   createFolder(spaceName, folderName) {
     this.openCreateFolderForm(spaceName);
+    this.getForm().should('be.visible');
     this.getFolderNameInput().type(folderName);
     this.getCreateButton().should("be.visible").click();
   }
@@ -95,6 +100,7 @@ export class DashboardPage {
   createTask(taskName) {
     this.openListView().click();
     this.getAddTaskButton().click().wait(5000);
+    this.getForm().should('be.visible');
     this.getTaskTitleInput().type(taskName);
     this.getCreateTaskButton().click();
   }
