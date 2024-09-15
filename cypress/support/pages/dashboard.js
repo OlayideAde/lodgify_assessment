@@ -1,5 +1,5 @@
 // methods and locators for dashboard page
-class DashboardPage {
+export class DashboardPage {
   getActiveTab() {
     return cy.get('[data-test^="breadcrumb-item__name"]');
   }
@@ -106,4 +106,4 @@ class DashboardPage {
     cy.get('button[data-test="dropdown-list-item__logOut"]').click();
   }
 }
-export default DashboardPage;
+

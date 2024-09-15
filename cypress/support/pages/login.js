@@ -1,5 +1,5 @@
 // methods and locators for login  page
-class LoginPage {
+export class LoginPage {
     getEmailField() {
         return cy.get('#login-email-input')
     }
@@ -18,4 +18,3 @@ class LoginPage {
         this.getLoginButton().click()
     }   
 }
-export default LoginPage

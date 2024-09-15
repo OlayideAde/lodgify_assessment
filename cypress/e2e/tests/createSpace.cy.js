@@ -1,6 +1,5 @@
-import ApiHelper from "../helpers/apiHelper";
-import TestHelper from "../helpers/testHelper";
-import DashboardPage from "../pageObjects/dashboard";
+import { ApiHelper, TestHelper } from "../../support/helpers";
+import { DashboardPage } from "../../support/pages";
 
 let spaceName;
 let folderName;
@@ -15,7 +14,6 @@ describe("Test Scenarios", () => {
   before(() => {
     spaceName = testHelper.getRandomString();
     folderName = testHelper.getRandomString();
-    taskName = testHelper.getRandomString(6);
 
     dashboard = new DashboardPage();
   });
@@ -66,7 +64,8 @@ describe("Test Scenarios", () => {
     describe("Positive tests", () => {
       beforeEach(() => {
         apiHelper.interceptCreateTask().as("createTask");
-        apiHelper.interceptGetWidgets().as("getWidgets")
+        apiHelper.interceptGetWidgets().as("getWidgets");
+        taskName = testHelper.getRandomString(6);
       });
 
       it("should create task via UI and verify via API", () => {
@@ -111,7 +110,6 @@ describe("Test Scenarios", () => {
       });
 
       it("should create task via API and verify on UI", () => {
-        taskName = testHelper.getRandomString(6);
         // call create task with list id and verify response
         apiHelper
           .callCreateTaskApi(taskName, Cypress.env("LIST_ID"))
@@ -141,10 +139,13 @@ describe("Test Scenarios", () => {
     });
 
     describe("Negative tests", () => {
+      beforeEach(() => {
+        apiHelper.interceptGetWidgets().as("getWidgets")
+      });
+
       it("#UI-test should verify that task name is required", () => {
-        // login to test user dashboard
+        // login to test user dashboard and verify user is in workspace
         cy.testUserLogin();
-        // verify user is in workspace
         cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         // Open task list

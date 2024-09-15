@@ -2,7 +2,7 @@ let requestPayload;
 let options;
 
 const apiBaseUrl = "https://app.clickup.com/api/v2";
-class ApiHelper {
+export class ApiHelper {
   callCreateSpaceApi(spaceName) {
     requestPayload = {
       name: spaceName,
@@ -90,4 +90,3 @@ class ApiHelper {
   }
 }
 
-export default ApiHelper;
