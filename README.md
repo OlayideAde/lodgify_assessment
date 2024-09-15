@@ -1,6 +1,19 @@
 # lodgify_assessment_repo
 
 This repo contains the test cases for test scenarios outlined in the [lodgify assessment task](https://lodgify.notion.site/Lodgify-Junior-Automation-QA-Challenge-28b56dfc7d59474fa85dae2ebebbd191). 
+## Getting started
+# Folder Structure With Descriptions
+/cypress |  | The automated testing framework
+--- | --- | --- | 
+| /e2e |
+--- | --- | --- | 
+.gitignore | | Git ignored files
+--- | --- | --- | 
+ package.json | | Scripts and libraries
+--- | --- | --- | 
+ cypress.config.js | | Cypress configurations
+--- | --- | --- | 
+/.github. | /workflows | Github actions configurations
 
 ## Cloning the repository
 
