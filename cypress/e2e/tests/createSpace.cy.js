@@ -114,7 +114,6 @@ describe("Test Scenarios", () => {
         apiHelper
           .callCreateTaskApi(taskName, Cypress.env("LIST_ID"))
           .then((response) => {
-            cy.log(response.body);
             expect(response.status).to.equal(200);
             expect(response.body.name).to.equal(taskName);
           });
@@ -125,7 +124,6 @@ describe("Test Scenarios", () => {
 
         // Open list
         dashboard.getFolder(folderName).click();
-       
         dashboard.openListView();
 
         //Verify task is on task list
@@ -149,8 +147,7 @@ describe("Test Scenarios", () => {
         cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         // Open task list
-        dashboard.getFolder(folderName).click();
-        
+        dashboard.getFolder(folderName).click();      
         dashboard.openListView();
         // open addTask form
         dashboard.getAddTaskButton().click();
