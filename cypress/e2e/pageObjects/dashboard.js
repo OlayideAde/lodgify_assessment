@@ -42,8 +42,8 @@ class DashboardPage {
     );
   }
 
-  getTask() {
-    return cy.get('div[data-test="task-row_-container__test"]');
+  getTaskByName(name) {
+    return cy.get(`[data-test="task-row-main__link-text__${name}"]`)
   }
 
   getCreateTaskForm() {

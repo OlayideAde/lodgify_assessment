@@ -23,27 +23,23 @@ describe("Test Scenarios", () => {
   describe('Validate "Create Space" functionality', () => {
     describe("Positive tests", () => {
       it("should create space via API and verify on UI", () => {
-        // call createSpace API
+        // call createSpace API and verify response
         apiHelper.callCreateSpaceApi(spaceName).then((response) => {
-          // verify response status code
           expect(response.status).to.equal(200);
           expect(response.body.name).to.equal(spaceName);
         });
 
-        // login to dashboard
+        // login to dashboard and verify user is in workspace
         cy.testUserLogin();
-        // verify user is in workspace
         cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         // verify spaceName is displayed in side menu
         dashboard.getSpacesSideMenu().within(() => {
-          dashboard.getSpace(spaceName).should("be.visible");
-          dashboard.getSpace(spaceName).should("have.text", ` ${spaceName} `);
+          dashboard.getSpace(spaceName).should("be.visible").and("have.text", ` ${spaceName} `);
         });
 
-        // open space
+        // open space and verify active tab
         dashboard.openSpace(spaceName);
-        // verify that the selected space tab is open
         dashboard.getActiveTab().contains(spaceName).should("be.visible");
 
         // logout
@@ -53,11 +49,11 @@ describe("Test Scenarios", () => {
 
     describe("Negative tests", () => {
       it("#API-test should verify that space name cannot be an empty string", () => {
-        // call createSpace API
+        // call createSpace API and verify error
         apiHelper.callCreateSpaceApi("").then((response) => {
-          // verify response code and error message
           expect(response.status).to.equal(400);
           expect(response.body.err).to.equal("Space name invalid");
+          expect(response.body.ECODE).to.equal("PROJ_060");
         });
       });
     });
@@ -70,69 +66,71 @@ describe("Test Scenarios", () => {
       });
 
       it("should create task via UI and verify via API", () => {
-        // login to test user dashboard
+        // login to dashboard and verify user is in workspace
         cy.testUserLogin();
-        // verify user is in workspace
         cy.url().should("contain", Cypress.env("WORKSPACE"));
-        dashboard.getSpace(spaceName).click()
+        // open space
+        dashboard.getSpace(spaceName).click();
         dashboard.getActiveTab().contains(spaceName).should("be.visible");
-        
+
         // create folder in space
         dashboard.createFolder(spaceName, folderName);
 
         // create task in default list via ui
         dashboard.getFolder(folderName).click();
-
-        cy.wait(1000);
         dashboard.createTask(taskName);
 
         //verify notification modal
         // dashboard
-         // .getNotificationText()
-         // .should("have.value", `${taskName} Created!`);
+        // .getNotificationText()
+        // .should("have.value", `${taskName} Created!`);
 
-
-        // retrieve list id from url
-        cy.url().then((url) => {
-          listId = url.split("/").pop();
-          Cypress.env("LIST_ID", listId);
-        });
-
+        // intercept create task req 
         cy.wait("@createTask").then((intercept) => {
           let taskId = intercept.response.body["id"];
 
-          // call getTaskApi using id and verify
+          // call getTaskApi using id and verify response
           apiHelper.callGetTaskApi(taskId).then((response) => {
-            // verify response
-            cy.log(response);
             expect(response.status).to.equal(200);
             expect(response.body.id).to.equal(taskId);
             expect(response.body.name).to.equal(taskName);
+
+            // retrieve list id
+            listId = response.body.list["id"];
+            Cypress.env("LIST_ID", listId);
           });
         });
+
+        // logout
+        dashboard.userLogout();
       });
 
       it("should create task via API and verify on UI", () => {
+        taskName = testHelper.getRandomString(6);
         // call create task with list id and verify response
-        listId = Cypress.env("LIST_ID");
-        apiHelper.callCreateTaskApi(taskName, listId).then((response) => {
-          cy.log(response.body);
-          expect(response.status).to.equal(200);
-          expect(response.body.name).to.equal(taskName);
-        });
+        apiHelper
+          .callCreateTaskApi(taskName, Cypress.env("LIST_ID"))
+          .then((response) => {
+            cy.log(response.body);
+            expect(response.status).to.equal(200);
+            expect(response.body.name).to.equal(taskName);
+          });
 
-        // login to dashboard
+        // login to dashboard and verify user is in workspace
         cy.testUserLogin();
-        // verify user is in workspace
         cy.url().should("contain", Cypress.env("WORKSPACE"));
 
-        // Open folder in space
+        // Open list
         dashboard.getFolder(folderName).click();
+        dashboard.openListView();
 
         //Verify task is on task list
         dashboard.getTaskList().within(() => {
-          dashboard.getTask().contains(taskName).should("be.visible");
+          dashboard.getTaskByName(taskName).should('be.visible')
         });
+
+        // logout
+        dashboard.userLogout();
       });
     });
 
@@ -143,30 +141,30 @@ describe("Test Scenarios", () => {
         // verify user is in workspace
         cy.url().should("contain", Cypress.env("WORKSPACE"));
 
-        //Get folder
+        // Open task list
         dashboard.getFolder(folderName).click();
-        // create task without name
         dashboard.openListView();
-
+        // open addTask form
         dashboard.getAddTaskButton().click();
         dashboard.getCreateTaskForm().should("be.visible");
         cy.wait(5000);
-
         dashboard.getCreateTaskButton().click();
 
         // verfy dispalyed error message
         cy.get('[data-pendo="quick-create-task-enter-task-name-error"]')
           .should("contain", "Enter Task Name")
           .should("be.visible");
+        dashboard.getCreateTaskForm().should("be.visible");  
       });
 
       it("#API-test should verify that task name cannot be an empty string", () => {
-        // call create task with list id and verify response
+        // call create task with list id and verify error
         apiHelper
           .callCreateTaskApi("", Cypress.env("LIST_ID"))
           .then((response) => {
-            expect(response.status).to.equal(400);
-            expect(response.body.err).to.equal("");
+            expect(response.status).to.equal(400)
+            expect(response.body.err).to.equal("Task name invalid")
+            expect(response.body.ECODE).to.equal("INPUT_005");
           });
       });
     });

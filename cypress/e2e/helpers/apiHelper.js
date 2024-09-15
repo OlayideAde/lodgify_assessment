@@ -45,7 +45,7 @@ class ApiHelper {
       method: "POST",
       url: `${apiBaseUrl}/team/${Cypress.env("WORKSPACE")}/space`,
       body: requestPayload,
-      failOnStatusCode: false,
+     failOnStatusCode: false,
     };
 
     return cy.request(options);
@@ -60,7 +60,7 @@ class ApiHelper {
       method: "POST",
       url: `${apiBaseUrl}/list/${listId}/task`,
       body: requestPayload,
-      // failOnStatusCode: false,
+      failOnStatusCode: false,
     };
 
     return cy.request(options);
