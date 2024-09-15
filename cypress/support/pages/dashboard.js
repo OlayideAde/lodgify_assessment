@@ -101,6 +101,7 @@ export class DashboardPage {
     this.openListView().click();
     this.getAddTaskButton().should("be.visible").click();
     this.getForm().should("be.visible");
+    cy.wait(1000);
     this.getTaskTitleInput().type(taskName);
     this.getCreateTaskButton().click();
   }
