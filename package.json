@@ -13,7 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^13.14.2",
-    "cypress-mochawesome-reporter": "^3.8.2"
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-terminal-report": "^6.2.0"
   },
   "dependencies": {
     "chai": "^5.1.1",

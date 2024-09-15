@@ -125,7 +125,7 @@ describe("Test Scenarios", () => {
 
         // Open list
         dashboard.getFolder(folderName).click();
-        cy.wait("@getWidgets")
+       
         dashboard.openListView();
 
         //Verify task is on task list
@@ -150,7 +150,7 @@ describe("Test Scenarios", () => {
 
         // Open task list
         dashboard.getFolder(folderName).click();
-        cy.wait("@getWidgets")
+        
         dashboard.openListView();
         // open addTask form
         dashboard.getAddTaskButton().click();

@@ -11,18 +11,3 @@ Cypress.Commands.add("testUserLogin", () => {
   login.userLogin(email, password);
 });
 
-// override api requests to use same authorization header
-Cypress.Commands.overwrite("request", (originalFn, ...options) => {
-  const optionsObject = options[0];
-
-  if (optionsObject === Object(optionsObject)) {
-    optionsObject.headers = {
-      Authorization: `${Cypress.env("AUTHORIZATION_TOKEN")}`,
-      ...optionsObject.headers,
-    };
-
-    return originalFn(optionsObject);
-  }
-
-  return originalFn(...options);
-});

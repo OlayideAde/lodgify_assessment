@@ -5,6 +5,8 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
       
+      require('cypress-terminal-report/src/installLogsPrinter')(on);
+
       // get config file for test environment
       const testEnv = config.env.testEnv || 'local'
       const configFileName = `./configFiles/${testEnv}.config.json`

@@ -45,6 +45,9 @@ export class ApiHelper {
       method: "POST",
       url: `${apiBaseUrl}/team/${Cypress.env("WORKSPACE")}/space`,
       body: requestPayload,
+      headers: {
+        Authorization: `${Cypress.env("AUTHORIZATION_TOKEN")}`,
+      },
      failOnStatusCode: false,
     };
 
@@ -60,6 +63,9 @@ export class ApiHelper {
       method: "POST",
       url: `${apiBaseUrl}/list/${listId}/task`,
       body: requestPayload,
+      headers: {
+        Authorization: `${Cypress.env("AUTHORIZATION_TOKEN")}`,
+      },
       failOnStatusCode: false,
     };
 
@@ -70,6 +76,9 @@ export class ApiHelper {
     options = {
       method: "GET",
       url: `${apiBaseUrl}/task/${taskId}`,
+      headers: {
+        Authorization: `${Cypress.env("AUTHORIZATION_TOKEN")}`,
+      }
     };
 
     return cy.request(options);
