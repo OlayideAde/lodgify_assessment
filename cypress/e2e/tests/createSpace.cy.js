@@ -35,7 +35,10 @@ describe("Test Scenarios", () => {
 
         // verify spaceName is displayed in side menu
         dashboard.getSpacesSideMenu().within(() => {
-          dashboard.getSpace(spaceName).should("be.visible").and("have.text", ` ${spaceName} `);
+          dashboard
+            .getSpace(spaceName)
+            .should("be.visible")
+            .and("have.text", ` ${spaceName} `);
         });
 
         // open space and verify active tab
@@ -63,6 +66,7 @@ describe("Test Scenarios", () => {
     describe("Positive tests", () => {
       beforeEach(() => {
         apiHelper.interceptCreateTask().as("createTask");
+        apiHelper.interceptGetWidgets().as("getWidgets")
       });
 
       it("should create task via UI and verify via API", () => {
@@ -77,15 +81,16 @@ describe("Test Scenarios", () => {
         dashboard.createFolder(spaceName, folderName);
 
         // create task in default list via ui
-        dashboard.getFolder(folderName).click();
+        dashboard.getFolder(folderName).click()
+        cy.wait("@getWidgets")
+
         dashboard.createTask(taskName);
+        //Verify task is on task list
+        dashboard.getTaskList().within(() => {
+          dashboard.getTaskByName(taskName).should("be.visible");
+        });
 
-        //verify notification modal
-        // dashboard
-        // .getNotificationText()
-        // .should("have.value", `${taskName} Created!`);
-
-        // intercept create task req 
+        // intercept create task req
         cy.wait("@createTask").then((intercept) => {
           let taskId = intercept.response.body["id"];
 
@@ -122,11 +127,12 @@ describe("Test Scenarios", () => {
 
         // Open list
         dashboard.getFolder(folderName).click();
+        cy.wait("@getWidgets")
         dashboard.openListView();
 
         //Verify task is on task list
         dashboard.getTaskList().within(() => {
-          dashboard.getTaskByName(taskName).should('be.visible')
+          dashboard.getTaskByName(taskName).should("be.visible");
         });
 
         // logout
@@ -143,18 +149,19 @@ describe("Test Scenarios", () => {
 
         // Open task list
         dashboard.getFolder(folderName).click();
+        cy.wait("@getWidgets")
         dashboard.openListView();
         // open addTask form
         dashboard.getAddTaskButton().click();
         dashboard.getCreateTaskForm().should("be.visible");
-        cy.wait(5000);
-        dashboard.getCreateTaskButton().click();
+        dashboard.getCreateTaskButton().should('be.visible').click();
 
         // verfy dispalyed error message
         cy.get('[data-pendo="quick-create-task-enter-task-name-error"]')
           .should("contain", "Enter Task Name")
           .should("be.visible");
-        dashboard.getCreateTaskForm().should("be.visible");  
+
+        dashboard.getCreateTaskForm().should("be.visible");
       });
 
       it("#API-test should verify that task name cannot be an empty string", () => {
@@ -162,8 +169,8 @@ describe("Test Scenarios", () => {
         apiHelper
           .callCreateTaskApi("", Cypress.env("LIST_ID"))
           .then((response) => {
-            expect(response.status).to.equal(400)
-            expect(response.body.err).to.equal("Task name invalid")
+            expect(response.status).to.equal(400);
+            expect(response.body.err).to.equal("Task name invalid");
             expect(response.body.ECODE).to.equal("INPUT_005");
           });
       });

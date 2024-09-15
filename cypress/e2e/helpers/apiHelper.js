@@ -81,6 +81,13 @@ class ApiHelper {
       url: "**/tasks/v1/subcategory/**/task",
     });
   }
+
+  interceptGetWidgets() {
+    return cy.intercept({
+      method: "GET",
+      url: "**/hierarchy/v1/category/***?include_views=true**",
+    });
+  }
 }
 
 export default ApiHelper;

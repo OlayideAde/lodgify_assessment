@@ -21,15 +21,19 @@ class DashboardPage {
   }
 
   getCreateButton() {
-    return cy.get('.cu-modal__footer > [buttontype="primary"]').contains('Create')
+    return cy
+      .get('.cu-modal__footer > [buttontype="primary"]')
+      .contains("Create");
   }
 
   getAddTaskButton() {
-    return cy.get('.cu2-views-bar__create-cu-object-button > .ng-trigger > [data-test="cu2-views-bar__create-menu-view-bar-collapsed"] > .container > [data-test="create-task-menu__new-task-button"]')
+    return cy.get(
+      '.cu2-views-bar__create-cu-object-button > .ng-trigger > [data-test="cu2-views-bar__create-menu-view-bar-collapsed"] > .container > [data-test="create-task-menu__new-task-button"]'
+    );
   }
 
   getTaskTitleInput() {
-    return cy.get('[data-test="draft-view__title-task"]')
+    return cy.get('[data-test="draft-view__title-task"]');
   }
 
   getCreateTaskButton() {
@@ -43,7 +47,7 @@ class DashboardPage {
   }
 
   getTaskByName(name) {
-    return cy.get(`[data-test="task-row-main__link-text__${name}"]`)
+    return cy.get(`[data-test="task-row-main__link-text__${name}"]`);
   }
 
   getCreateTaskForm() {
@@ -73,7 +77,9 @@ class DashboardPage {
   }
 
   openListView() {
-    return cy.get('[data-test="data-view-list__header-item-name-List"]').click()
+    return cy
+      .get('[data-test="data-view-list__header-item-name-List"]')
+      .click();
   }
 
   openSpace(name) {
@@ -83,12 +89,12 @@ class DashboardPage {
   createFolder(spaceName, folderName) {
     this.openCreateFolderForm(spaceName);
     this.getFolderNameInput().type(folderName);
-    this.getCreateButton().click();
+    this.getCreateButton().should("be.visible").click();
   }
 
   createTask(taskName) {
     this.openListView().click();
-    this.getAddTaskButton().click().wait(5000)
+    this.getAddTaskButton().click().wait(5000);
     this.getTaskTitleInput().type(taskName);
     this.getCreateTaskButton().click();
   }
