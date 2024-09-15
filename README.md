@@ -1,17 +1,21 @@
 # lodgify_assessment_repo
 
 This repo contains the test cases for test scenarios outlined in the [lodgify assessment task](https://lodgify.notion.site/Lodgify-Junior-Automation-QA-Challenge-28b56dfc7d59474fa85dae2ebebbd191). 
-## Getting started
-# Folder Structure With Descriptions
 
-| /cypress | | The automated testing framework |
-| | /e2e | Contains all tests |
-| | /support/pages | Contains page object modules |
-| | /support/helpers | Contains helper method |
-| .gitignore | | Git ignored files |
-| package.json | | Scripts and libraries |
-| cypress.config.js | | Cypress configuration |
-| /.github. | /workflows | Github actions configurations |
+## Getting started
+## Folder Structure With Descriptions
+
+|                   |                 |                                                                                          |
+| ----------------- | --------------- | ---------------------------------------------------------------------------------------- |
+| /cypress          |                 | The automated testing framework                                                          |
+|                   | /e2e            | Contains all the tests                                                                   |
+|                   | /support/pages  | Contains page object module                                                              |
+|                   | /support/helper | Contains helper module                                                                   |
+|                   | /support        | Contains the logic of the tests                                                          |
+| .gitignore        |                 | Git ignored files                                                                        |
+| /.github.         | /workflows      | Github actions configurations                                                            |
+| cypress.config.js |                 | [Cypress configurations](https://docs.cypress.io/api/cypress-api/config)                 |
+| package.json      |                 | Scripts and libraries                                                                    |
 
 To get a local copy up and running follow these steps 
 
