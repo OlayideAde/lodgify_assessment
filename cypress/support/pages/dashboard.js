@@ -101,8 +101,14 @@ export class DashboardPage {
     this.openListView().click();
     this.getAddTaskButton().should("be.visible").click();
     this.getForm().should("be.visible");
-    cy.wait(5000);
     this.getTaskTitleInput().type(taskName);
+    // form reloads sometimes and full input isnt typed
+    this.getTaskTitleInput().then(($input) => {
+      if ($input.val() !== taskName) {
+        this.getTaskTitleInput().clear();
+        this.getTaskTitleInput().type(taskName);
+      }
+    });
     this.getCreateTaskButton().click();
   }
 
