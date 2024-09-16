@@ -80,8 +80,8 @@ describe("Test Scenarios", () => {
         dashboard.createFolder(spaceName, folderName);
 
         // create task in default list via ui
-        dashboard.getFolder(folderName).click()
-        cy.wait("@getWidgets")
+        dashboard.getFolder(folderName).click();
+        cy.wait("@getWidgets");
 
         dashboard.createTask(taskName);
         //Verify task is on task list
@@ -138,7 +138,7 @@ describe("Test Scenarios", () => {
 
     describe("Negative tests", () => {
       beforeEach(() => {
-        apiHelper.interceptGetWidgets().as("getWidgets")
+        apiHelper.interceptGetWidgets().as("getWidgets");
       });
 
       it("#UI-test should verify that task name is required", () => {
@@ -147,12 +147,13 @@ describe("Test Scenarios", () => {
         cy.url().should("contain", Cypress.env("WORKSPACE"));
 
         // Open task list
-        dashboard.getFolder(folderName).click();      
+        dashboard.getFolder(folderName).click();
         dashboard.openListView();
         // open addTask form
         dashboard.getAddTaskButton().click();
         dashboard.getCreateTaskForm().should("be.visible");
-        dashboard.getCreateTaskButton().should('be.visible').click();
+        dashboard.getTaskTitleInput().should("be.empty");
+        dashboard.getCreateTaskButton().should("be.visible").click();
 
         // verfy dispalyed error message
         cy.get('[data-pendo="quick-create-task-enter-task-name-error"]')

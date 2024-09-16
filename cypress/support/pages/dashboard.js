@@ -93,7 +93,7 @@ export class DashboardPage {
   createFolder(spaceName, folderName) {
     this.openCreateFolderForm(spaceName);
     this.getForm().should("be.visible");
-    this.getFolderNameInput().type(folderName);
+    this.getFolderNameInput().should("be.empty").type(folderName);
     this.getCreateButton().should("be.visible").click();
   }
 
@@ -101,7 +101,7 @@ export class DashboardPage {
     this.openListView().click();
     this.getAddTaskButton().should("be.visible").click();
     this.getForm().should("be.visible");
-    this.getTaskTitleInput().type(taskName);
+    this.getTaskTitleInput().should("be.empty").type(taskName);
     // form reloads sometimes and full input isnt typed
     this.getTaskTitleInput().then(($input) => {
       if ($input.val() !== taskName) {
@@ -109,7 +109,7 @@ export class DashboardPage {
         this.getTaskTitleInput().type(taskName);
       }
     });
-    this.getCreateTaskButton().click();
+    this.getCreateTaskButton().should("be.visible").click();
   }
 
   userLogout() {
