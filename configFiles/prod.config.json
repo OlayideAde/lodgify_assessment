@@ -1,0 +1,9 @@
+{
+  "baseUrl": "https://app.clickup.com/login",
+  "env": {
+    "EMAIL": "laide.ademeso+test1@gmail.com",
+    "PASSWORD": "x&2_Rc-DZrs%8ys",
+    "AUTHORIZATION_TOKEN": "pk_1634400189_08QSNO7PQGU3Q6CPY8JHEASRDUAAULEY",
+    "WORKSPACE": "9012266896"
+  }
+}
