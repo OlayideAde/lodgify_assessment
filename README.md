@@ -2,8 +2,11 @@
 
 This repo contains the test cases for test scenarios outlined in the [lodgify assessment task](https://lodgify.notion.site/Lodgify-Junior-Automation-QA-Challenge-28b56dfc7d59474fa85dae2ebebbd191). 
 
+### Built With
+The automation project was done with Cypress, using Page Objects Model. Dependencies include cypress-mochawesome-reporter is to generate report files for test runs and cypress-terminal-report which prints results of cypress commands to the terminal. 
+
 ## Getting started
-## Folder Structure With Descriptions
+### Folder Structure With Descriptions
 
 |                   |                 |                                                                                          |
 | ----------------- | --------------- | ---------------------------------------------------------------------------------------- |
@@ -42,3 +45,7 @@ You can run the tests using your own ClickUp account configurations. To do this,
 
 ## Runnin the tests in the pipeline with Github Actions
 Github workflow is triggered to run all tests automatically on push to master and when a PR is opened. (see `github/workflows/run_tests_ci.yaml`).
+Workflow runs can be viewed in the `Actions` tab of the repository on github.
+Test report artifacts are available to download after test run is completed, by following these steps:
+1. Open `Actions` tab to view recent workflow runs and select one.
+2. On the `Summary` page for the workflow run, if the run is completed, the test report artifact named `testReport` will be avilable to download
